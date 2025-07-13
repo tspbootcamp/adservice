@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  IMAGE_NAME: tspbootcamp/adservice
+  IMAGE_NAME: marypearl/adservice
 
 jobs:
   build-and-push:
