@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adservice
-  labels:
-    app: adservice
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -16,34 +15,20 @@ spec:
     spec:
       containers:
         - name: adservice
-          image: docker.io/marypearl/adservice:latest  # You can replace 'latest' with a Git SHA if pinned versioning
+          image: marypearl/adservice:latest
           ports:
-            - containerPort: 9555
-          env:
-            - name: PORT
-              value: "9555"
-          readinessProbe:
-            grpc:
-              port: 9555
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            grpc:
-              port: 9555
-            initialDelaySeconds: 10
-            periodSeconds: 10
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: adservice
-  labels:
-    app: adservice
+  namespace: default
 spec:
   selector:
     app: adservice
   ports:
     - protocol: TCP
-      port: 9555
-      targetPort: 9555
+      port: 80
+      targetPort: 80
   type: ClusterIP
